@@ -1,0 +1,22 @@
+name: Identity API CI
+
+on:
+  push:
+    branches: [ "stg", "main" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'staging'
+
+jobs:
+  call-backend-ci:
+    uses: ryuzake/reusable-backend-ci/.github/workflows/backend-ci.yml@main
+    with:
+      dotnet-version: '10.0'
+      project-path: 'Identity.API/Identity.API.csproj'
+      test-path: 'Identity.API.Tests/Identity.API.Tests.csproj'
+      run-tests: true
+      image-name: 'identity-api'
+    secrets: inherit
